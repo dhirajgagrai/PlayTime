@@ -1,9 +1,9 @@
 import { FC, ReactElement } from "react"
 
-import Search from "@/components/search"
+import Playlist from "@/components/playlist"
 
 const Page: FC = (): ReactElement => (
-  <Search/>
+  <Playlist/>
 )
 
 export default Page
