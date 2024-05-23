@@ -10,7 +10,7 @@ const libre = Libre_Franklin({
 
 export const metadata: Metadata = {
   title: "PlayTime | YouTube Playlist Watch Time",
-  description: "Calculate watch time of YouTube playlists seamlessly",
+  description: "Seamlessly calculate watch time of YouTube playlists",
 }
 
 const RootLayout = ({

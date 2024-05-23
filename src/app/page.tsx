@@ -2,14 +2,15 @@ import { FC, ReactElement } from "react"
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { CardTitle, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card"
+import { PlayTimeText } from "@/components/playtime-text"
+
 import Link from "next/link"
 
 const Page: FC = (): ReactElement => (
-  <main className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
-    <div className="max-w-2xl w-full px-4 md:px-6">
+  <main className="flex flex-col items-center h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="mt-40 max-w-2xl w-full px-4 md:px-6">
       <div className="space-y-4 text-center">
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">PlayTime</h1>
+        <PlayTimeText />
       </div>
       <div className="mt-8 flex items-center space-x-4">
         <Input
@@ -17,42 +18,11 @@ const Page: FC = (): ReactElement => (
           placeholder="Paste YouTube playlist URL or ID"
           type="text"
         />
-        <Button className="rounded-md bg-primary px-6 py-2 text-white shadow-sm transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 dark:bg-primary dark:hover:bg-primary/90 dark:focus:ring-primary/50">
+        <Link href="/search">
+          <Button className="rounded-md bg-primary px-6 py-2 text-white shadow-sm transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 dark:bg-primary dark:hover:bg-primary/90 dark:focus:ring-primary/50">
             Search
-        </Button>
-      </div>
-      <div className="mt-8">
-        <Card className="p-6">
-          <CardHeader>
-            <CardTitle>Playlist Details</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <h3 className="text-lg font-medium">Title</h3>
-                <p className="text-gray-500 dark:text-gray-400">Vercel Playlist: Introducing the Frontend Cloud</p>
-              </div>
-              <div>
-                <h3 className="text-lg font-medium">Video Count</h3>
-                <p className="text-gray-500 dark:text-gray-400">24</p>
-              </div>
-              <div>
-                <h3 className="text-lg font-medium">Total Duration</h3>
-                <p className="text-gray-500 dark:text-gray-400">2 hours 15 minutes</p>
-              </div>
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-end">
-            <Link href="/playlist">
-              <Button className="mr-2" variant="outline">
-                View Playlist
-              </Button>
-            </Link>
-            <Button className="mr-2" variant="outline">
-                Download Playlist
-            </Button>
-          </CardFooter>
-        </Card>
+          </Button>
+        </Link>
       </div>
     </div>
   </main>
