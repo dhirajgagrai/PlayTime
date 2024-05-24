@@ -1,12 +1,12 @@
 import { FC, ReactElement } from "react"
 
+import { RedirectType, redirect } from "next/navigation"
+
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { PlayTimeText } from "@/components/playtime-text"
 
-import { redirect } from "next/navigation"
-
-const searchPlaylist = async (formData: FormData) => {
+const searchPlaylist = async (formData: FormData): Promise<RedirectType | undefined> => {
   "use server"
   const q = formData.get("q") as string
   if (q) {

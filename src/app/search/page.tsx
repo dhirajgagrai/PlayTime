@@ -1,19 +1,13 @@
-import { FC, ReactElement } from "react"
+import { ReactElement } from "react"
+
+import Link from "next/link"
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { CardTitle, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card"
 import { PlayTimeText } from "@/components/playtime-text"
 
-import Link from "next/link"
-
-import yt from "@/services/youtube"
-
-interface PlaylistDetails {
-  title: string | null | undefined
-  channel: string | null | undefined
-  videoCount: number | null | undefined
-}
+import yt, { PlaylistOverview } from "@/services/youtube"
 
 const filterPlaylistId = (params : { [key: string]: string | string[] | undefined }) => {
   if (params.list) {
@@ -30,30 +24,38 @@ const filterPlaylistId = (params : { [key: string]: string | string[] | undefine
   }
 }
 
-const getPlaylistDetails = async (id: string) => {
-  const playlistDetails = {} as PlaylistDetails
-  const resPlaylist = await yt.playlists.list({ id: [id], part: ["snippet"] })
-  if (resPlaylist.data.items && resPlaylist.data.items.length > 0) {
+const getPlaylistOverview = async (id: string) => {
+  const playlistOverview = {} as PlaylistOverview
+  const resPlaylist = await yt.playlists.list({
+    id: [id],
+    part: ["snippet"],
+  })
+
+  if (resPlaylist.data.items && resPlaylist.data.items.length) {
     const playlist = resPlaylist.data.items[0].snippet
-    playlistDetails["title"] = playlist?.title
-    playlistDetails["channel"] = playlist?.channelTitle
+    playlistOverview.title = playlist?.title
+    playlistOverview.channel = playlist?.channelTitle
   } else {
     return null
   }
 
-  const resItems = await yt.playlistItems.list({ playlistId: id, part: ["snippet"] })
+  const resItems = await yt.playlistItems.list({
+    playlistId: id,
+    part: ["snippet"],
+  })
+
   if (resItems && resItems.data.pageInfo) {
-    playlistDetails["videoCount"] = resItems.data.pageInfo.totalResults
+    playlistOverview.videoCount = resItems.data.pageInfo.totalResults
   }
 
-  return playlistDetails
+  return playlistOverview
 }
 
 const Page = async ({ searchParams }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }): Promise<ReactElement> => {
   const id = filterPlaylistId(searchParams)
-  const playlist = await getPlaylistDetails(id as string)
+  const playlist = await getPlaylistOverview(id as string)
   return (
     <main className="flex flex-col items-center h-screen bg-gray-100 dark:bg-gray-900">
       <div className="mt-40 max-w-2xl w-full px-4 md:px-6">
@@ -93,7 +95,7 @@ const Page = async ({ searchParams }: {
               </div>
             </CardContent>
             <CardFooter className="flex justify-end">
-              <Link href="/playlist">
+              <Link href={`/playlist?id=${id}`}>
                 <Button className="mr-2" variant="outline">
                 View Playlist
                 </Button>
