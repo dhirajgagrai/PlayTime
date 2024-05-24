@@ -4,7 +4,6 @@ export interface PlaylistDetails {
   title: string | null | undefined
   videoCount: number | null | undefined
   videos: youtube_v3.Schema$PlaylistItem[]
-  status: youtube_v3.Schema$VideoStatus[]
 }
 
 export interface PlaylistOverview {

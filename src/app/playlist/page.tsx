@@ -53,23 +53,6 @@ const getPlaylistDetails = async (id: string) => {
   }
   playlistDetails.videos = playlistDetails.videos.filter(video => video.status?.privacyStatus == "public")
 
-  const videoIds = playlistDetails.videos.map(video => video.snippet?.resourceId?.videoId)
-  const duration: string[] = []
-  const status = []
-  while (videoIds.length) {
-    const tempIds = videoIds.splice(0, 50)
-    const videosDetails = await yt.videos.list({
-      id: tempIds as string[],
-      part: ["contentDetails", "status"],
-    })
-
-    if (videosDetails.data.items?.length) {
-      const temp_duration = videosDetails.data.items.map(item => item.contentDetails?.duration) as string[]
-      const temp_status = videosDetails.data.items.map(item => item.status)
-      duration.push(...temp_duration)
-      status.push(...temp_status)
-    }
-  }
   return playlistDetails
 }
 
