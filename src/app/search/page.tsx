@@ -9,9 +9,9 @@ import Search from "@/components/search"
 
 import yt, { PlaylistOverview } from "@/services/youtube"
 
-const filterPlaylistId = (params : { [key: string]: string | string[] | undefined }) => {
+const filterPlaylistId = (params : { [key: string]: string | string[] | undefined }): string => {
   if (params.list) {
-    return params.list
+    return params.list as string
   } else if (params.q) {
     const searchString = (params.q as string).substring(params.q.indexOf("?"))
     const p = new URLSearchParams(searchString)
@@ -22,9 +22,11 @@ const filterPlaylistId = (params : { [key: string]: string | string[] | undefine
       return searchString
     }
   }
+
+  return ""
 }
 
-const getPlaylistOverview = async (id: string) => {
+const getPlaylistOverview = async (id: string): Promise<PlaylistOverview | null> => {
   const playlistOverview = {} as PlaylistOverview
   const resPlaylist = await yt.playlists.list({
     id: [id],
@@ -88,7 +90,6 @@ const Page = async ({ searchParams }: {
               <Link href={`/playlist?id=${id}`} target="_blank">
                 <Button className="mr-2" variant="outline">View Playlist</Button>
               </Link>
-              <Button className="mr-2" variant="outline">Download Playlist</Button>
             </CardFooter>
           </Card>
         </div>
