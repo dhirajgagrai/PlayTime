@@ -132,7 +132,7 @@ const Page = async ({ searchParams }: {
                   <div className="flex items-center gap-4 max-w-xl">
                     <Checkbox id={`video-${i}`} />
                     <Link href={`https://www.youtube.com/watch?v=${video.snippet?.resourceId?.videoId}`} target="_blank" className="hover:underline">
-                      <div className="font-medium">{i + 1}. {video.snippet?.title}</div>
+                      <div className="font-medium">{video.snippet?.title}</div>
                     </Link>
                   </div>
                   <div className="flex basis-48 items-center gap-2">

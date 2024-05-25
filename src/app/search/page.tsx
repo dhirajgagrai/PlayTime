@@ -85,7 +85,7 @@ const Page = async ({ searchParams }: {
               </div>
             </CardContent>
             <CardFooter className="flex justify-end">
-              <Link href={`/playlist?id=${id}`}>
+              <Link href={`/playlist?id=${id}`} target="_blank">
                 <Button className="mr-2" variant="outline">View Playlist</Button>
               </Link>
               <Button className="mr-2" variant="outline">Download Playlist</Button>
