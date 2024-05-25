@@ -1,6 +1,6 @@
 "use client"
 
-import { FC, ReactElement } from "react"
+import { ReactElement } from "react"
 import { useFormStatus } from "react-dom"
 
 import { cn } from "@/lib/utils"
