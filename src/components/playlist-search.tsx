@@ -1,4 +1,4 @@
-import { FC, ReactElement } from "react"
+import { ReactElement } from "react"
 import { RedirectType, redirect } from "next/navigation"
 
 import { Input } from "@/components/ui/input"
@@ -12,7 +12,7 @@ const searchPlaylist = async (formData: FormData): Promise<RedirectType | undefi
   }
 }
   
-const PlaylistSearch = (props: { value: string | undefined }): ReactElement => (
+const PlaylistSearch = (props: { value?: string }): ReactElement => (
   <form action={searchPlaylist} className="mt-8 flex items-center space-x-4">
     <Input
       className="flex-1 rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary dark:border-gray-700 dark:bg-gray-800 dark:text-gray-50 dark:focus:border-primary"
