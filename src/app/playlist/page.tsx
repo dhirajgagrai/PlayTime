@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Progress } from "@/components/ui/progress"
+import { Separator } from "@/components/ui/separator"
 
 import yt, { PlaylistDetails } from "@/services/youtube"
 
@@ -123,8 +124,9 @@ const Page = async ({ searchParams }: {
                   <div className="text-2xl font-bold mr-10">{pd?.title}</div>
                 </Link>
                 <div className="text-gray-500">Total videos: {pd?.videos.length} {Boolean(unavailableVideoCount) && `(${unavailableVideoCount} unavailable)`}</div>
-                <div className="flex gap-2 mt-4">
+                <div className="flex gap-2 mt-4 items-center">
                   <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">Delete</Button>
+                  <Separator className="h-5 bg-gray-900" orientation="vertical" color="black" />
                   <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">Watched</Button>
                 </div>
               </div>
