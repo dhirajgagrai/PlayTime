@@ -8,4 +8,4 @@ const PlayTimeText: FC = (): ReactElement => (
   </Link>
 )
 
-export { PlayTimeText }
+export default PlayTimeText
