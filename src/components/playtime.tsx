@@ -1,11 +1,11 @@
-import { FC, ReactElement } from "react"
+import { ReactElement } from "react"
 
 import Link from "next/link"
 
-const PlayTimeText: FC = (): ReactElement => (
+const PlayTime = (): ReactElement => (
   <Link href="/">
     <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">PlayTime</h1>
   </Link>
 )
 
-export default PlayTimeText
+export default PlayTime

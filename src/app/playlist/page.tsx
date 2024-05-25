@@ -1,12 +1,12 @@
-import { FC, ReactElement } from "react"
+import { ReactElement } from "react"
 import moment from "moment"
 
+import { CheckIcon, TrashIcon } from "lucide-react"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Progress } from "@/components/ui/progress"
-import { CheckIcon, TrashIcon } from "lucide-react"
 
 import yt, { PlaylistDetails } from "@/services/youtube"
 
@@ -112,12 +112,8 @@ const Page = async ({ searchParams }: {
               </Link>
               <div className="text-gray-500">Total videos: {playlistDetails?.videos.length} {Boolean(unavailableVideoCount) && `(${unavailableVideoCount} unavailable)`}</div>
               <div className="flex gap-2 mt-4">
-                <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">
-                  Delete
-                </Button>
-                <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">
-                  Watched
-                </Button>
+                <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">Delete</Button>
+                <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">Watched</Button>
               </div>
             </div>
             <div className="text-4xl font-bold">

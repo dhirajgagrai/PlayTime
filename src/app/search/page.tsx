@@ -4,10 +4,10 @@ import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
 import { CardTitle, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card"
-import PlayTimeText from "@/components/playtime-text"
+import PlayTime from "@/components/playtime"
+import Search from "@/components/search"
 
 import yt, { PlaylistOverview } from "@/services/youtube"
-import PlaylistSearch from "@/components/playlist-search"
 
 const filterPlaylistId = (params : { [key: string]: string | string[] | undefined }) => {
   if (params.list) {
@@ -60,9 +60,9 @@ const Page = async ({ searchParams }: {
     <main className="flex flex-col items-center h-screen bg-gray-100 dark:bg-gray-900">
       <div className="mt-40 max-w-2xl w-full px-4 md:px-6">
         <div className="space-y-4 text-center">
-          <PlayTimeText />
+          <PlayTime />
         </div>
-        <PlaylistSearch value={searchParams.q as string} />
+        <Search value={searchParams.q as string} />
         <div className="mt-8">
           <Card className="p-6">
             <CardHeader>
@@ -86,13 +86,9 @@ const Page = async ({ searchParams }: {
             </CardContent>
             <CardFooter className="flex justify-end">
               <Link href={`/playlist?id=${id}`}>
-                <Button className="mr-2" variant="outline">
-                View Playlist
-                </Button>
+                <Button className="mr-2" variant="outline">View Playlist</Button>
               </Link>
-              <Button className="mr-2" variant="outline">
-                Download Playlist
-              </Button>
+              <Button className="mr-2" variant="outline">Download Playlist</Button>
             </CardFooter>
           </Card>
         </div>
