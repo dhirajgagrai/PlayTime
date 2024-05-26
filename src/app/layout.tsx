@@ -19,7 +19,7 @@ const RootLayout = ({
   children: React.ReactNode
 }>) => (
   <html lang="en">
-    <body className={libre.className}>{children}</body>
+    <body className={`${libre.className} bg-gray-100`}>{children}</body>
   </html>
 )
 

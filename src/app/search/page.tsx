@@ -70,13 +70,13 @@ const Page = async ({ searchParams }: {
   const id = filterPlaylistId(searchParams)
   const playlist = id ? await getPlaylistOverview(id) : null
   return (
-    <main className="flex flex-col items-center h-screen bg-gray-100 dark:bg-gray-900">
+    <main className="flex flex-col items-center justify-between h-screen">
       <div className="mt-40 max-w-2xl w-full px-4 md:px-6">
         <div className="space-y-4 text-center">
           <PlayTime />
         </div>
         <Search />
-        <div className="mt-8">
+        <div className="my-8">
           {
             Boolean(playlist) ?
               <Card className="p-6">
