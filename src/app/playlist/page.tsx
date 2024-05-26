@@ -114,62 +114,60 @@ const Page = async ({ searchParams }: {
   )
   const unavailableVideoCount = (pd?.videoCount as number) - (pd?.videos.length as number)
   return (
-    <>
-      <main className="flex flex-col">
-        <div className="min-h-screen bg-gray-100 p-8 overflow-y-auto">
-          <div className="max-w-3xl mx-auto">
-            <div className="flex justify-between mb-3">
-              <div>
-                <Link href={`https://www.youtube.com/playlist?list=${searchParams.id}`} target="_blank" className="hover:underline">
-                  <div className="text-2xl font-bold mr-10">{pd?.title}</div>
-                </Link>
-                <div className="text-gray-500">Total videos: {pd?.videos.length} {Boolean(unavailableVideoCount) && `(${unavailableVideoCount} unavailable)`}</div>
-                <div className="flex gap-2 mt-4 items-center">
-                  <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">Delete</Button>
-                  <Separator className="h-5 bg-gray-900" orientation="vertical" color="black" />
-                  <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">Watched</Button>
-                </div>
-              </div>
-              <div className="text-4xl font-bold">
-                <span>0</span>
-                <span className="text-2xl"> / </span>
-                <span>
-                  {formatMomentDuration(totalDuration)}
-                </span>
+    <main className="flex flex-col">
+      <div className="min-h-screen bg-gray-100 p-8 overflow-y-auto">
+        <div className="max-w-3xl mx-auto">
+          <div className="flex justify-between mb-3">
+            <div>
+              <Link href={`https://www.youtube.com/playlist?list=${searchParams.id}`} target="_blank" className="hover:underline">
+                <div className="text-2xl font-bold mr-10">{pd?.title}</div>
+              </Link>
+              <div className="text-gray-500">Total videos: {pd?.videos.length} {Boolean(unavailableVideoCount) && `(${unavailableVideoCount} unavailable)`}</div>
+              <div className="flex gap-2 mt-4 items-center">
+                <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">Delete</Button>
+                <Separator className="h-5 bg-gray-900" orientation="vertical" />
+                <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">Watched</Button>
               </div>
             </div>
-            <Progress className="mb-10" value={50} />
-            <div className="space-y-4">
-              {
-                pd?.videos.map((video, i) => (
-                  <div className="flex items-center justify-between" key={`video-div-${i}`}>
-                    <div className="flex items-center gap-4 max-w-xl">
-                      <Checkbox id={`video-${i}`} />
-                      <Link href={`https://www.youtube.com/watch?v=${video.snippet?.resourceId?.videoId}`} target="_blank" className="hover:underline">
-                        <div className="font-medium">{video.snippet?.title}</div>
-                      </Link>
-                    </div>
-                    <div className="flex basis-48 items-center gap-2">
-                      <Button className="text-gray-400 hover:text-gray-900" size="icon" variant="ghost">
-                        <TrashIcon className="h-4 w-4" />
-                        <span className="sr-only">Delete</span>
-                      </Button>
-                      <Button className="text-gray-400 hover:text-gray-900" size="icon" variant="ghost">
-                        <CheckIcon className="h-4 w-4" />
-                        <span className="sr-only">Mark as watched</span>
-                      </Button>
-                      <div className="basis-28 text-gray-500">
-                        {formatMomentDuration(formattedDuration[i])}
-                      </div>
-                    </div>
-                  </div>
-                ))
-              }
+            <div className="text-4xl font-bold">
+              <span>0</span>
+              <span className="text-2xl"> / </span>
+              <span>
+                {formatMomentDuration(totalDuration)}
+              </span>
             </div>
           </div>
+          <Progress className="mb-10" value={50} />
+          <div className="space-y-4">
+            {
+              pd?.videos.map((video, i) => (
+                <div className="flex items-center justify-between" key={`video-div-${i}`}>
+                  <div className="flex items-center gap-4 max-w-xl">
+                    <Checkbox id={`video-${i}`} />
+                    <Link href={`https://www.youtube.com/watch?v=${video.snippet?.resourceId?.videoId}`} target="_blank" className="hover:underline">
+                      <div className="font-medium">{video.snippet?.title}</div>
+                    </Link>
+                  </div>
+                  <div className="flex basis-48 items-center gap-2">
+                    <Button className="text-gray-400 hover:text-gray-900" size="icon" variant="ghost">
+                      <TrashIcon className="h-4 w-4" />
+                      <span className="sr-only">Delete</span>
+                    </Button>
+                    <Button className="text-gray-400 hover:text-gray-900" size="icon" variant="ghost">
+                      <CheckIcon className="h-4 w-4" />
+                      <span className="sr-only">Mark as watched</span>
+                    </Button>
+                    <div className="basis-28 text-gray-500">
+                      {formatMomentDuration(formattedDuration[i])}
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
         </div>
-      </main>
-    </>
+      </div>
+    </main>
   )
 }
 

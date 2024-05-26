@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { CardTitle, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card"
 import PlayTime from "@/components/playtime"
 import Search from "@/components/search"
+import Social from "@/components/social"
 
 import yt, { PlaylistOverview } from "@/services/youtube"
 
@@ -114,6 +115,7 @@ const Page = async ({ searchParams }: {
           }
         </div>
       </div>
+      <Social />
     </main>
   )
 }

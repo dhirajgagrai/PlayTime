@@ -1,7 +1,10 @@
 import { ReactElement } from "react"
 
+import Link from "next/link"
+
 import PlayTime from "@/components/playtime"
 import Search from "@/components/search"
+import Social from "@/components/social"
 
 const Page = (): ReactElement => (
   <main className="flex flex-col items-center h-screen bg-gray-100 dark:bg-gray-900">
@@ -11,6 +14,7 @@ const Page = (): ReactElement => (
       </div>
       <Search />
     </div>
+    <Social />
   </main>
 )
 
