@@ -53,7 +53,7 @@ const getPlaylistDetails = async (id: string): Promise<PlaylistDetails | null> =
       break
     }
   }
-  playlistDetails.videos = playlistDetails.videos.filter(video => video.status?.privacyStatus == "public")
+  playlistDetails.videos = playlistDetails.videos.filter(video => video.status?.privacyStatus != "private")
 
   return playlistDetails
 }
@@ -124,9 +124,13 @@ const Page = async ({ searchParams }: {
               </Link>
               <div className="text-gray-500">Total videos: {pd?.videos.length} {Boolean(unavailableVideoCount) && `(${unavailableVideoCount} unavailable)`}</div>
               <div className="flex gap-2 mt-4 items-center">
-                <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">Delete</Button>
-                <Separator className="h-5 bg-gray-900" orientation="vertical" />
-                <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">Watched</Button>
+                <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">
+                  <TrashIcon className="h-4 w-4 mr-1" /> Delete
+                </Button>
+                <Separator className="h-5 bg-gray-400" orientation="vertical" />
+                <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">
+                  <CheckIcon className="h-4 w-4 mr-1" />Watched
+                </Button>
               </div>
             </div>
             <div className="text-4xl font-bold">
@@ -137,7 +141,7 @@ const Page = async ({ searchParams }: {
               </span>
             </div>
           </div>
-          <Progress className="mb-10" value={50} />
+          <Progress className="mb-5" value={50} />
           <div className="space-y-4">
             {
               pd?.videos.map((video, i) => (
@@ -155,7 +159,7 @@ const Page = async ({ searchParams }: {
                     </Button>
                     <Button className="text-gray-400 hover:text-gray-900" size="icon" variant="ghost">
                       <CheckIcon className="h-4 w-4" />
-                      <span className="sr-only">Mark as watched</span>
+                      <span className="sr-only">Watched</span>
                     </Button>
                     <div className="basis-28 text-gray-500">
                       {formatMomentDuration(formattedDuration[i])}
