@@ -1,6 +1,5 @@
-import { ReactElement } from "react"
-
 import Link from "next/link"
+import { ReactElement } from "react"
 
 const PlayTime = (): ReactElement => (
   <Link href="/">

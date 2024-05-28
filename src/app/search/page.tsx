@@ -1,6 +1,5 @@
-import { ReactElement } from "react"
-
 import Link from "next/link"
+import { ReactElement } from "react"
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
@@ -72,7 +71,7 @@ const Page = async ({ searchParams }: {
   return (
     <main className="flex flex-col items-center justify-between h-screen">
       <div className="mt-40 max-w-2xl w-full px-4 md:px-6">
-        <div className="space-y-4 text-center">
+        <div className="space-y-4 mb-4 text-center">
           <PlayTime />
         </div>
         <Search />

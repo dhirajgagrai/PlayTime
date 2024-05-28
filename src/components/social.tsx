@@ -1,7 +1,6 @@
-import { ReactElement } from "react"
-
 import Link from "next/link"
 import Image from "next/image"
+import { ReactElement } from "react"
 
 import { Separator } from "./ui/separator"
 

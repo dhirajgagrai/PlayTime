@@ -1,16 +1,17 @@
-import { ReactElement } from "react"
-import moment from "moment"
-
 import { CheckIcon, TrashIcon } from "lucide-react"
+import moment from "moment"
 import { Metadata } from "next"
 import Link from "next/link"
+import { ReactElement } from "react"
 
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 
 import yt, { PlaylistDetails } from "@/services/youtube"
+
+import { formatHrToDuration } from "@/lib/utils"
+import Videos from "@/components/videos"
 
 const getPlaylistDetails = async (id: string): Promise<PlaylistDetails | null> => {
   const playlistDetails = {} as PlaylistDetails
@@ -77,20 +78,6 @@ const getVideosDuration = async (ids: string[]): Promise<(string | null | undefi
   return duration
 }
 
-const formatMomentDuration = (d: moment.Duration): string => {
-  if (!d) {
-    return "NA"
-  }
-  if (d.asHours() > 1) {
-    const hourDuration = d.asHours()
-    const duration = new Date(0,0)
-    duration.setSeconds(+hourDuration * 60 * 60)
-    return `${duration.getHours()}h ${duration.getMinutes()}m ${duration.getSeconds()}s`
-  }else {
-    return `${d.minutes()}m ${d.seconds()}s`
-  }
-}
-
 export const generateMetadata =  async ({ searchParams }: {
   searchParams: { [key: string]: string | string[] | undefined }
 }): Promise<Metadata> => {
@@ -107,11 +94,8 @@ const Page = async ({ searchParams }: {
   const pd = await getPlaylistDetails(searchParams.id as string)
   const videoIds = pd?.videos.map(video => video.snippet?.resourceId?.videoId)
   const videosDuration = await getVideosDuration(videoIds as string[])
-  const formattedDuration = videosDuration.map(vd => moment.duration(vd))
-  const totalDuration = formattedDuration.reduce(
-    (prev, curr) => prev.add(curr),
-    moment.duration(0)
-  )
+  const hrFormattedDuration = videosDuration.map(vd => moment.duration(vd).asHours())
+  const totalDuration = hrFormattedDuration.reduce((prev, curr) => prev += curr, 0)
   const unavailableVideoCount = (pd?.videoCount as number) - (pd?.videos.length as number)
   return (
     <main className="flex flex-col">
@@ -133,42 +117,24 @@ const Page = async ({ searchParams }: {
                 </Button>
               </div>
             </div>
-            <div className="text-4xl font-bold">
-              <span>0</span>
-              <span className="text-2xl"> / </span>
-              <span>
-                {formatMomentDuration(totalDuration)}
-              </span>
+            <div className="flex">
+              <div className="text-2xl font-bold">
+                <span>
+                  1m 0s&nbsp;
+                </span>
+              </div>
+              <div className="text-3xl font-bold">
+                <span>
+                  / {formatHrToDuration(totalDuration)}
+                </span>
+              </div>
             </div>
           </div>
-          <Progress className="mb-5" value={50} />
-          <div className="space-y-4">
-            {
-              pd?.videos.map((video, i) => (
-                <div className="flex items-center justify-between" key={`video-div-${i}`}>
-                  <div className="flex items-center gap-4 max-w-xl">
-                    <Checkbox id={`video-${i}`} />
-                    <Link href={`https://www.youtube.com/watch?v=${video.snippet?.resourceId?.videoId}`} target="_blank" className="hover:underline">
-                      <div className="font-medium">{video.snippet?.title}</div>
-                    </Link>
-                  </div>
-                  <div className="flex basis-48 items-center gap-2">
-                    <Button className="text-gray-400 hover:text-gray-900" size="icon" variant="ghost">
-                      <TrashIcon className="h-4 w-4" />
-                      <span className="sr-only">Delete</span>
-                    </Button>
-                    <Button className="text-gray-400 hover:text-gray-900" size="icon" variant="ghost">
-                      <CheckIcon className="h-4 w-4" />
-                      <span className="sr-only">Watched</span>
-                    </Button>
-                    <div className="basis-28 text-gray-500">
-                      {formatMomentDuration(formattedDuration[i])}
-                    </div>
-                  </div>
-                </div>
-              ))
-            }
+          <div className="flex items-center justify-between mb-5 text-sm font-bold">
+            <Progress className="w-11/12" value={10} />
+            <span>10%</span>
           </div>
+          <Videos pd={pd as PlaylistDetails} fd={hrFormattedDuration} />
         </div>
       </div>
     </main>
