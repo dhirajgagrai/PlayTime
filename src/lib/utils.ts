@@ -6,16 +6,14 @@ export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs))
 }
 
-export const formatHrToDuration = (dHours: number): string => {
-  if (!dHours) {
+export const formatHrToDuration = (dHours: number, strictCheck: boolean = true): string => {
+  if (strictCheck && !dHours) {
     return "NA"
   }
+  const d = moment.duration(dHours, "hours")
   if (dHours > 1) {
-    const d = new Date(0, 0)
-    d.setSeconds(+dHours * 60 * 60)
-    return `${d.getHours()}h ${d.getMinutes()}m ${d.getSeconds()}s`
+    return `${d.hours()}h ${d.minutes()}m ${d.seconds()}s`
   } else {
-    const d = moment.duration(dHours, "hours")
     return `${d.minutes()}m ${d.seconds()}s`
   }
 }

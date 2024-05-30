@@ -1,16 +1,9 @@
-import { CheckIcon, TrashIcon } from "lucide-react"
 import moment from "moment"
 import { Metadata } from "next"
-import Link from "next/link"
 import { ReactElement } from "react"
-
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import { Separator } from "@/components/ui/separator"
 
 import yt, { PlaylistDetails } from "@/services/youtube"
 
-import { formatHrToDuration } from "@/lib/utils"
 import Videos from "@/components/videos"
 
 const getPlaylistDetails = async (id: string): Promise<PlaylistDetails | null> => {
@@ -95,47 +88,10 @@ const Page = async ({ searchParams }: {
   const videoIds = pd?.videos.map(video => video.snippet?.resourceId?.videoId)
   const videosDuration = await getVideosDuration(videoIds as string[])
   const hrFormattedDuration = videosDuration.map(vd => moment.duration(vd).asHours())
-  const totalDuration = hrFormattedDuration.reduce((prev, curr) => prev += curr, 0)
-  const unavailableVideoCount = (pd?.videoCount as number) - (pd?.videos.length as number)
   return (
     <main className="flex flex-col">
       <div className="min-h-screen bg-gray-100 p-8 overflow-y-auto">
-        <div className="max-w-3xl mx-auto">
-          <div className="flex justify-between mb-3">
-            <div>
-              <Link href={`https://www.youtube.com/playlist?list=${searchParams.id}`} target="_blank" className="hover:underline">
-                <div className="text-2xl font-bold mr-10">{pd?.title}</div>
-              </Link>
-              <div className="text-gray-500">Total videos: {pd?.videos.length} {Boolean(unavailableVideoCount) && `(${unavailableVideoCount} unavailable)`}</div>
-              <div className="flex gap-2 mt-4 items-center">
-                <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">
-                  <TrashIcon className="h-4 w-4 mr-1" /> Delete
-                </Button>
-                <Separator className="h-5 bg-gray-400" orientation="vertical" />
-                <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">
-                  <CheckIcon className="h-4 w-4 mr-1" />Watched
-                </Button>
-              </div>
-            </div>
-            <div className="flex">
-              <div className="text-2xl font-bold">
-                <span>
-                  1m 0s&nbsp;
-                </span>
-              </div>
-              <div className="text-3xl font-bold">
-                <span>
-                  / {formatHrToDuration(totalDuration)}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center justify-between mb-5 text-sm font-bold">
-            <Progress className="w-11/12" value={10} />
-            <span>10%</span>
-          </div>
-          <Videos pd={pd as PlaylistDetails} fd={hrFormattedDuration} />
-        </div>
+        <Videos pId={searchParams.id as string} pd={pd as PlaylistDetails} fd={hrFormattedDuration} />
       </div>
     </main>
   )
