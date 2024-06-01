@@ -11,12 +11,12 @@ import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { PlaylistDetails } from "@/services/youtube"
 
-import { formatHrToDuration } from "@/lib/utils"
+import { formatSecToDuration } from "@/lib/utils"
 
 const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): ReactElement => {
   const [videos, setVideos] = useState(props.pd.videos)
   const [totalDuration, setTotalDuration] = useState(props.fd.reduce(
-    (prev, curr) => moment.duration(prev, "hours").add(curr, "hours").asHours(),
+    (prev, curr) => moment.duration(prev, "seconds").add(curr, "seconds").asSeconds(),
     0
   ))
   const [watchedDuration, setWatchedDuration] = useState(0)
@@ -28,9 +28,9 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
 
   const handleDelete = (duration: number, id: string, index: number): void => {
     if (watched.some((element) => element === id)) {
-      setWatchedDuration(moment.duration(watchedDuration, "hours").subtract(duration, "hours").asHours())
+      setWatchedDuration(moment.duration(watchedDuration, "seconds").subtract(duration, "seconds").asSeconds())
     }
-    setTotalDuration(moment.duration(totalDuration, "hours").subtract(duration, "hours").asHours())
+    setTotalDuration(moment.duration(totalDuration, "seconds").subtract(duration, "seconds").asSeconds())
     setVideos(videos.filter(element => element.id !== id))
     props.fd.splice(index, 1)
   }
@@ -40,7 +40,7 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
       setWatchedDuration(watchedDuration - duration)
       setWatched(watched.filter(element => element !== id))
     } else {
-      setWatchedDuration(moment.duration(watchedDuration, "hours").add(duration, "hours").asHours())
+      setWatchedDuration(moment.duration(watchedDuration, "seconds").add(duration, "seconds").asSeconds())
       setWatched([...watched, id])
     }
   }
@@ -68,12 +68,12 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
         <div className="flex">
           <div className="text-2xl font-bold">
             <span>
-              {formatHrToDuration(watchedDuration, false)}&nbsp;
+              {formatSecToDuration(watchedDuration, false)}&nbsp;
             </span>
           </div>
           <div className="text-3xl font-bold">
             <span>
-              / {formatHrToDuration(totalDuration)}
+              / {formatSecToDuration(totalDuration)}
             </span>
           </div>
         </div>
@@ -108,7 +108,7 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
                   <span className="sr-only">Watched</span>
                 </Button>
                 <div className="basis-28 text-gray-500">
-                  {formatHrToDuration(props.fd[i])}
+                  {formatSecToDuration(props.fd[i])}
                 </div>
               </div>
             </div>

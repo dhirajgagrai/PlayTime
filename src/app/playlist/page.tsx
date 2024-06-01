@@ -87,7 +87,7 @@ const Page = async ({ searchParams }: {
   const pd = await getPlaylistDetails(searchParams.id as string)
   const videoIds = pd?.videos.map(video => video.snippet?.resourceId?.videoId)
   const videosDuration = await getVideosDuration(videoIds as string[])
-  const hrFormattedDuration = videosDuration.map(vd => moment.duration(vd).asHours())
+  const hrFormattedDuration = videosDuration.map(vd => moment.duration(vd).asSeconds())
   return (
     <main className="flex flex-col">
       <div className="min-h-screen bg-gray-100 p-8 overflow-y-auto">
