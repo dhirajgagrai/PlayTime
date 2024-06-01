@@ -16,7 +16,7 @@ const LoadingSpinner = ({
   size = 24,
   className,
   ...props
-}: ISVGProps) => {
+}: ISVGProps): ReactElement => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

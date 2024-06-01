@@ -12,12 +12,10 @@ import { PlaylistDetails } from "@/services/youtube"
 
 import { formatSecToDuration } from "@/lib/utils"
 
+// TODO: Refactor for handling multiple states using videos state
 const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): ReactElement => {
   const [videos, setVideos] = useState(props.pd.videos)
-  const [totalDuration, setTotalDuration] = useState(props.fd.reduce(
-    (prev, curr) => prev + curr,
-    0
-  ))
+  const [totalDuration, setTotalDuration] = useState(props.fd.reduce((prev, curr) => prev + curr, 0))
   const [watchedDuration, setWatchedDuration] = useState(0)
   const [watched, setWatched] = useState<string[]>([])
   const [checkedVideos, setCheckedVideos] = useState<{
@@ -42,18 +40,18 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
   }
 
   const handleMultiDelete = () => {
-    const netDeleteDuration = checkedVideos.reduce(
-      (acc, curr) => acc + curr.duration,
-      0
-    )
+    const netDeleteDuration = checkedVideos.reduce((acc, curr) => acc + curr.duration, 0)
     const watchedVideos = checkedVideos.filter(element => watched.some(wElement => wElement === element.id))
-    const netWatchedDuration = watchedVideos.reduce(
-      (acc, curr) => acc + curr.duration,
-      0
-    )
+    const netWatchedDuration = watchedVideos.reduce((acc, curr) => acc + curr.duration, 0)
     const indexes = checkedVideos.map(element => element.index).sort()
+
     setWatchedDuration(watchedDuration - netWatchedDuration)
     setTotalDuration(totalDuration - netDeleteDuration)
+    /**
+     * Filters videos that are in the indexes and returns rest of the videos.
+     * indexes.indexOf(i) returns -1 for all i that are not in indexes.
+     * However, if i is in indexes it gets filtered out as indexOf(i) returns non-negative value.
+     *  */
     setVideos(videos.filter((_, i) => indexes.indexOf(i) === -1))
     setCheckedVideos([])
     setChecked(new Array(videos.length).fill(false))
@@ -75,10 +73,8 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
   const handleMultiWatched = () => {
     const unwatchedVideos = checkedVideos.filter(element => !watched.some(wElement => wElement === element.id))
     const ids = unwatchedVideos.map(element => element.id)
-    const netUnwatchedDuration = unwatchedVideos.reduce(
-      (acc ,curr) => acc + curr.duration,
-      0
-    )
+    const netUnwatchedDuration = unwatchedVideos.reduce((acc ,curr) => acc + curr.duration, 0)
+
     setWatchedDuration(watchedDuration + netUnwatchedDuration)
     setWatched([...watched, ...ids])
     setCheckedVideos([])

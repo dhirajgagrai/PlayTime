@@ -17,7 +17,7 @@ const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode
-}>) => (
+}>): JSX.Element => (
   <html lang="en">
     <body className={`${libre.className} bg-gray-100`}>{children}</body>
   </html>
