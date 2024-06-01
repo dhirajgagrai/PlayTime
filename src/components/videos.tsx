@@ -1,7 +1,6 @@
 "use client"
 
 import { CheckIcon, TrashIcon } from "lucide-react"
-import moment from "moment"
 import Link from "next/link"
 import { ReactElement, useState } from "react"
 
@@ -16,33 +15,83 @@ import { formatSecToDuration } from "@/lib/utils"
 const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): ReactElement => {
   const [videos, setVideos] = useState(props.pd.videos)
   const [totalDuration, setTotalDuration] = useState(props.fd.reduce(
-    (prev, curr) => moment.duration(prev, "seconds").add(curr, "seconds").asSeconds(),
+    (prev, curr) => prev + curr,
     0
   ))
   const [watchedDuration, setWatchedDuration] = useState(0)
   const [watched, setWatched] = useState<string[]>([])
+  const [checkedVideos, setCheckedVideos] = useState<{
+    duration: number
+    id: string
+    index: number
+  }[]>([])
+  const [checked, setChecked] = useState<boolean[]>(new Array(videos.length).fill(false))
+
   const unavailableVideoCount = (props.pd?.videoCount as number) - (props.pd?.videos.length as number)
   const progress = totalDuration ? Math.round(watchedDuration / totalDuration * 100) : 0
 
-  const isChecked = (id: string): boolean => watched.some((element) => element === id)
+  const isChecked = (id: string): boolean => watched.some(element => element === id)
 
   const handleDelete = (duration: number, id: string, index: number): void => {
-    if (watched.some((element) => element === id)) {
-      setWatchedDuration(moment.duration(watchedDuration, "seconds").subtract(duration, "seconds").asSeconds())
+    if (watched.some(element => element === id)) {
+      setWatchedDuration(watchedDuration - duration)
     }
-    setTotalDuration(moment.duration(totalDuration, "seconds").subtract(duration, "seconds").asSeconds())
+    setTotalDuration(totalDuration - duration)
     setVideos(videos.filter(element => element.id !== id))
     props.fd.splice(index, 1)
   }
 
+  const handleMultiDelete = () => {
+    const netDeleteDuration = checkedVideos.reduce(
+      (acc, curr) => acc + curr.duration,
+      0
+    )
+    const watchedVideos = checkedVideos.filter(element => watched.some(wElement => wElement === element.id))
+    const netWatchedDuration = watchedVideos.reduce(
+      (acc, curr) => acc + curr.duration,
+      0
+    )
+    const indexes = checkedVideos.map(element => element.index).sort()
+    setWatchedDuration(watchedDuration - netWatchedDuration)
+    setTotalDuration(totalDuration - netDeleteDuration)
+    setVideos(videos.filter((_, i) => indexes.indexOf(i) === -1))
+    setCheckedVideos([])
+    setChecked(new Array(videos.length).fill(false))
+    while (indexes.length) {
+      props.fd.splice(indexes.pop() as number, 1)
+    }
+  }
+
   const handleWatched = (duration: number, id: string): void => {
-    if (watched.some((element) => element === id)) {
+    if (watched.some(element => element === id)) {
       setWatchedDuration(watchedDuration - duration)
       setWatched(watched.filter(element => element !== id))
     } else {
-      setWatchedDuration(moment.duration(watchedDuration, "seconds").add(duration, "seconds").asSeconds())
+      setWatchedDuration(watchedDuration + duration)
       setWatched([...watched, id])
     }
+  }
+
+  const handleMultiWatched = () => {
+    const unwatchedVideos = checkedVideos.filter(element => !watched.some(wElement => wElement === element.id))
+    const ids = unwatchedVideos.map(element => element.id)
+    const netUnwatchedDuration = unwatchedVideos.reduce(
+      (acc ,curr) => acc + curr.duration,
+      0
+    )
+    setWatchedDuration(watchedDuration + netUnwatchedDuration)
+    setWatched([...watched, ...ids])
+    setCheckedVideos([])
+    setChecked(new Array(videos.length).fill(false))
+  }
+
+  const handleCheck = (duration: number, id: string, index: number): void => {
+    if (checkedVideos.some(element => element.id === id)) {
+      setCheckedVideos(checkedVideos.filter(element => element.id !== id))
+    } else {
+      setCheckedVideos([...checkedVideos, { duration, id, index }])
+    }
+    setChecked(checked.with(index, !checked[index]))
   }
 
   return (
@@ -53,30 +102,39 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
             <div className="text-2xl font-bold mr-10">{props.pd?.title}</div>
           </Link>
           <div className="text-gray-500">
-            Total videos: {props.pd?.videos.length} {Boolean(unavailableVideoCount) && `(${unavailableVideoCount} unavailable)`}
+            Total videos: {videos.length} {Boolean(unavailableVideoCount) && `(${unavailableVideoCount} unavailable)`}
           </div>
           <div className="flex gap-2 mt-4 items-center">
-            <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">
+            <Button
+              className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost"
+              onClick={handleMultiDelete}
+            >
               <TrashIcon className="h-4 w-4 mr-1" /> Delete
             </Button>
             <Separator className="h-5 bg-gray-400" orientation="vertical" />
-            <Button className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost">
+            <Button
+              className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost"
+              onClick={handleMultiWatched}
+            >
               <CheckIcon className="h-4 w-4 mr-1" />Watched
             </Button>
           </div>
         </div>
-        <div className="flex">
-          <div className="text-2xl font-bold">
-            <span>
-              {formatSecToDuration(watchedDuration, false)}&nbsp;
-            </span>
+        {
+          Boolean(totalDuration) &&
+          <div className="flex">
+            <div className="text-2xl font-bold">
+              <span>
+                {formatSecToDuration(watchedDuration, false)}&nbsp;
+              </span>
+            </div>
+            <div className="text-3xl font-bold">
+              <span>
+                  / {formatSecToDuration(totalDuration)}
+              </span>
+            </div>
           </div>
-          <div className="text-3xl font-bold">
-            <span>
-              / {formatSecToDuration(totalDuration)}
-            </span>
-          </div>
-        </div>
+        }
       </div>
       <div className="flex items-center justify-between mb-5 text-sm font-bold">
         <Progress className="w-11/12" value={progress} />
@@ -87,7 +145,10 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
           videos.map((video, i) => (
             <div className="flex items-center justify-between" key={`video-div-${i}`}>
               <div className="flex items-center gap-4 max-w-xl">
-                <Checkbox id={`video-${i}`} />
+                <Checkbox
+                  checked={checked[i]}
+                  onClick={() => handleCheck(props.fd[i], video.id as string, i)}
+                />
                 <Link href={`https://www.youtube.com/watch?v=${video.snippet?.resourceId?.videoId}`} target="_blank" className="hover:underline">
                   <div className="font-medium">{video.snippet?.title}</div>
                 </Link>

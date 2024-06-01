@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
 interface ISVGProps extends React.SVGProps<SVGSVGElement> {
-  size?: number;
-  className?: string;
+  size?: number
+  className?: string
 }
 
 const LoadingSpinner = ({
