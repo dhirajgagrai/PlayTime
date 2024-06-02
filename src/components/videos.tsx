@@ -40,9 +40,9 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
   }
 
   const handleMultiDelete = () => {
-    const netDeleteDuration = checkedVideos.reduce((acc, curr) => acc + curr.duration, 0)
     const watchedVideos = checkedVideos.filter(element => watched.some(wElement => wElement === element.id))
     const netWatchedDuration = watchedVideos.reduce((acc, curr) => acc + curr.duration, 0)
+    const netDeleteDuration = checkedVideos.reduce((acc, curr) => acc + curr.duration, 0)
     const indexes = checkedVideos.map(element => element.index).sort()
 
     setWatchedDuration(watchedDuration - netWatchedDuration)
@@ -158,7 +158,8 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
                   <span className="sr-only">Delete</span>
                 </Button>
                 <Button
-                  className={isChecked(video.id as string) ? "text-gray-900" : "text-gray-300" + " hover:text-gray-900"} variant="ghost"
+                  className={isChecked(video.id as string) ? "text-gray-900 hover:text-green-500" : "text-gray-300 hover:text-gray-900"}
+                  size="icon" variant="ghost"
                   onClick={() => handleWatched(props.fd[i], video.id as string)}
                 >
                   <CheckIcon className="h-4 w-4" />
