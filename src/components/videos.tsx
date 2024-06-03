@@ -93,7 +93,7 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
   return (
     <div className="max-w-3xl mx-auto">
       <div className="flex justify-between mb-2">
-        <div>
+        <div className="w-full">
           <Link href={`https://www.youtube.com/playlist?list=${props.pId}`} target="_blank" className="hover:underline">
             <div className="text-2xl font-bold">{props.pd?.title}</div>
           </Link>
@@ -118,14 +118,14 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
             </div>
             {
               Boolean(totalDuration) &&
-            <div className="flex">
-              <div className="text-2xl font-bold">
-                <span>{formatSecToDuration(watchedDuration, false)}&nbsp;</span>
+              <div className="flex">
+                <div className="text-2xl font-bold">
+                  <span>{formatSecToDuration(watchedDuration, false)}&nbsp;</span>
+                </div>
+                <div className="text-3xl font-bold">
+                  <span>/ {formatSecToDuration(totalDuration)}</span>
+                </div>
               </div>
-              <div className="text-3xl font-bold">
-                <span>/ {formatSecToDuration(totalDuration)}</span>
-              </div>
-            </div>
             }
           </div>
         </div>
