@@ -12,8 +12,11 @@ export const formatSecToDuration = (dSecs: number, strictCheck: boolean = true):
   }
   const d = moment.duration(dSecs, "seconds")
   if (dSecs > 3600) {
-    return `${d.hours()}h ${d.minutes()}m ${d.seconds()}s`
-  } else {
-    return `${d.minutes()}m ${d.seconds()}s`
+    const hrs = d.months() * 31 + d.days() * 24 + d.hours()
+    if (hrs >= 10) {
+      return `${hrs}h ${d.minutes()}m`
+    }
+    return `${hrs}h ${d.minutes()}m ${d.seconds()}s`
   }
+  return `${d.minutes()}m ${d.seconds()}s`
 }

@@ -95,42 +95,40 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
       <div className="flex justify-between mb-2">
         <div>
           <Link href={`https://www.youtube.com/playlist?list=${props.pId}`} target="_blank" className="hover:underline">
-            <div className="text-2xl font-bold mr-10">{props.pd?.title}</div>
+            <div className="text-2xl font-bold">{props.pd?.title}</div>
           </Link>
-          <div className="text-gray-500">
+          <div className="text-gray-500 mb-2">
             Total videos: {videos.length} {Boolean(unavailableVideoCount) && `(${unavailableVideoCount} unavailable)`}
           </div>
-          <div className="flex gap-2 mt-4 items-center">
-            <Button
-              className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost"
-              onClick={handleMultiDelete}
-            >
-              <TrashIcon className="h-4 w-4 mr-1" /> Delete
-            </Button>
-            <Separator className="h-5 bg-gray-400" orientation="vertical" />
-            <Button
-              className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost"
-              onClick={handleMultiWatched}
-            >
-              <CheckIcon className="h-4 w-4 mr-1" />Watched
-            </Button>
+          <div className="flex items-center justify-between">
+            <div className="flex gap-2 items-center">
+              <Button
+                className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost"
+                onClick={handleMultiDelete}
+              >
+                <TrashIcon className="h-4 w-4 mr-1" /> Delete
+              </Button>
+              <Separator className="h-5 bg-gray-400" orientation="vertical" />
+              <Button
+                className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost"
+                onClick={handleMultiWatched}
+              >
+                <CheckIcon className="h-4 w-4 mr-1" />Watched
+              </Button>
+            </div>
+            {
+              Boolean(totalDuration) &&
+            <div className="flex">
+              <div className="text-2xl font-bold">
+                <span>{formatSecToDuration(watchedDuration, false)}&nbsp;</span>
+              </div>
+              <div className="text-3xl font-bold">
+                <span>/ {formatSecToDuration(totalDuration)}</span>
+              </div>
+            </div>
+            }
           </div>
         </div>
-        {
-          Boolean(totalDuration) &&
-          <div className="flex">
-            <div className="text-2xl font-bold">
-              <span>
-                {formatSecToDuration(watchedDuration, false)}&nbsp;
-              </span>
-            </div>
-            <div className="text-3xl font-bold">
-              <span>
-                  / {formatSecToDuration(totalDuration)}
-              </span>
-            </div>
-          </div>
-        }
       </div>
       <div className="flex items-center justify-between mb-5 text-sm font-bold">
         <Progress className="w-11/12" value={progress} />
