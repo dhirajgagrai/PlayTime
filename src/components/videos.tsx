@@ -156,7 +156,7 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
                   <span className="sr-only">Delete</span>
                 </Button>
                 <Button
-                  className={isChecked(video.id as string) ? "text-gray-900 hover:text-green-500" : "text-gray-300 hover:text-gray-900"}
+                  className={isChecked(video.id as string) ? "text-gray-900" : "text-gray-300 hover:text-green-500"}
                   size="icon" variant="ghost"
                   onClick={() => handleWatched(props.fd[i], video.id as string)}
                 >
