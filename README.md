@@ -2,8 +2,6 @@
 
 This app calculates the total watch time of YouTube playlists, with additional features to remove videos and check the duration of the watched videos.
 
-Link: [yt-playtime.vercel.app](https://yt-playtime.vercel.app/)
-
 ## Installing
 
 Project uses [pnpm](https://pnpm.io/) for package management.
