@@ -19,7 +19,7 @@ const YT_URLS = [
   "youtube.com/",
 ]
 
-const filterPlaylistId = (params : { [key: string]: string | undefined }): string => {
+const filterPlaylistId = (params: { [key: string]: string | undefined }): string => {
   const validURL = YT_URLS.some((url) => params.q?.startsWith(url))
   if (validURL) {
     if (params.list) {
@@ -70,7 +70,7 @@ const Page = async ({ searchParams }: {
   const playlist = id ? await getPlaylistOverview(id) : null
   return (
     <main className="flex flex-col items-center justify-between h-screen">
-      <div className="mt-40 max-w-2xl w-full px-4 md:px-6">
+      <div className="mt-10 md:mt-40 max-w-2xl w-full px-4 md:px-6">
         <div className="space-y-4 mb-4 text-center">
           <PlayTime />
         </div>
@@ -78,7 +78,7 @@ const Page = async ({ searchParams }: {
         <div className="my-8">
           {
             Boolean(playlist) ?
-              <Card className="p-6">
+              <Card className="p-1">
                 <CardHeader>
                   <CardTitle>Playlist Overview</CardTitle>
                 </CardHeader>
@@ -98,7 +98,7 @@ const Page = async ({ searchParams }: {
                     </div>
                   </div>
                 </CardContent>
-                <CardFooter className="flex justify-end">
+                <CardFooter className="flex justify-center md:justify-end">
                   <Link href={`/playlist?id=${id}`} target="_blank">
                     <Button className="mr-2" variant="outline">View Playlist</Button>
                   </Link>

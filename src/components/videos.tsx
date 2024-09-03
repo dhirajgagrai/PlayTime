@@ -2,7 +2,7 @@
 
 import { CheckIcon, TrashIcon } from "lucide-react"
 import Link from "next/link"
-import { ReactElement, useState } from "react"
+import { MouseEvent, ReactElement, useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -13,7 +13,7 @@ import { PlaylistDetails } from "@/services/youtube"
 import { formatSecToDuration } from "@/lib/utils"
 
 // TODO: Refactor for handling multiple states using videos state
-const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): ReactElement => {
+const Videos = (props: { pId: string, pd: PlaylistDetails, fd: number[] }): ReactElement => {
   const [videos, setVideos] = useState(props.pd.videos)
   const [totalDuration, setTotalDuration] = useState(props.fd.reduce((prev, curr) => prev + curr, 0))
   const [watchedDuration, setWatchedDuration] = useState(0)
@@ -73,7 +73,7 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
   const handleMultiWatched = () => {
     const unwatchedVideos = checkedVideos.filter(element => !watched.some(wElement => wElement === element.id))
     const ids = unwatchedVideos.map(element => element.id)
-    const netUnwatchedDuration = unwatchedVideos.reduce((acc ,curr) => acc + curr.duration, 0)
+    const netUnwatchedDuration = unwatchedVideos.reduce((acc, curr) => acc + curr.duration, 0)
 
     setWatchedDuration(watchedDuration + netUnwatchedDuration)
     setWatched([...watched, ...ids])
@@ -100,8 +100,8 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
           <div className="text-gray-500 mb-2">
             Total videos: {videos.length} {Boolean(unavailableVideoCount) && `(${unavailableVideoCount} unavailable)`}
           </div>
-          <div className="flex items-center justify-between">
-            <div className="flex gap-2 items-center">
+          <div className="flex flex-col md:flex-row justify-between">
+            <div className="hidden md:flex gap-2 items-center">
               <Button
                 className="text-gray-400 hover:text-gray-900 w-auto" size="icon" variant="ghost"
                 onClick={handleMultiDelete}
@@ -119,10 +119,10 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
             {
               Boolean(totalDuration) &&
               <div className="flex">
-                <div className="text-2xl font-bold">
+                <div className="text-xl md:text-2xl font-bold">
                   <span>{formatSecToDuration(watchedDuration, false)}&nbsp;</span>
                 </div>
-                <div className="text-3xl font-bold">
+                <div className="text-xl md:text-3xl font-bold">
                   <span>/ {formatSecToDuration(totalDuration)}</span>
                 </div>
               </div>
@@ -137,9 +137,10 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
       <div className="space-y-4">
         {
           videos.map((video, i) => (
-            <div className="flex items-center justify-between" key={`video-div-${i}`}>
+            <div className="flex flex-col md:flex-row md:items-center justify-between" key={`video-div-${i}`}>
               <div className="flex items-center gap-4 max-w-xl">
                 <Checkbox
+                  className="hidden md:block"
                   checked={checked[i]}
                   onClick={() => handleCheck(props.fd[i], video.id as string, i)}
                 />
@@ -147,16 +148,16 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
                   <div className="font-medium">{video.snippet?.title}</div>
                 </Link>
               </div>
-              <div className="flex basis-48 items-center gap-2">
+              <div className="flex basis-5 md:basis-48 items-center gap-2">
                 <Button
-                  className="text-gray-300 hover:text-gray-900" size="icon" variant="ghost"
+                  className="text-gray-400 hover:text-gray-400 md:hover:text-gray-900" size="icon" variant="ghost"
                   onClick={() => handleDelete(props.fd[i], video.id as string, i)}
                 >
                   <TrashIcon className="h-4 w-4" />
                   <span className="sr-only">Delete</span>
                 </Button>
                 <Button
-                  className={isChecked(video.id as string) ? "text-gray-900" : "text-gray-300 hover:text-green-500"}
+                  className={isChecked(video.id as string) ? "text-gray-900" : "text-gray-400 hover:text-gray-400 md:hover:text-green-500"}
                   size="icon" variant="ghost"
                   onClick={() => handleWatched(props.fd[i], video.id as string)}
                 >
@@ -174,5 +175,5 @@ const Videos = (props: { pId:string, pd: PlaylistDetails, fd: number[] }): React
     </div>
   )
 }
-  
+
 export default Videos
