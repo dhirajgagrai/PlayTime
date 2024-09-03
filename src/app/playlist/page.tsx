@@ -77,7 +77,7 @@ export const generateMetadata = async ({ searchParams }: {
   const pd = await getPlaylistDetails(searchParams.id as string)
   return {
     title: pd?.title,
-    description: `Calculate watch time of the playlist - ${pd?.title}`,
+    description: `Know the watch time of the playlist - ${pd?.title}`,
   }
 }
 
