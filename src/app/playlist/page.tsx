@@ -71,7 +71,7 @@ const getVideosDuration = async (ids: string[]): Promise<(string | null | undefi
   return duration
 }
 
-export const generateMetadata =  async ({ searchParams }: {
+export const generateMetadata = async ({ searchParams }: {
   searchParams: { [key: string]: string | string[] | undefined }
 }): Promise<Metadata> => {
   const pd = await getPlaylistDetails(searchParams.id as string)
@@ -82,8 +82,8 @@ export const generateMetadata =  async ({ searchParams }: {
 }
 
 const Page = async ({ searchParams }: {
-    searchParams: { [key: string]: string | string[] | undefined }
-  }): Promise<ReactElement> => {
+  searchParams: { [key: string]: string | string[] | undefined }
+}): Promise<ReactElement> => {
   const pd = await getPlaylistDetails(searchParams.id as string)
   const videoIds = pd?.videos.map(video => video.snippet?.resourceId?.videoId)
   const videosDuration = await getVideosDuration(videoIds as string[])
