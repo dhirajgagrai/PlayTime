@@ -1,16 +1,18 @@
 import globals from "globals"
+import { fixupConfigRules } from "@eslint/compat"
+import { FlatCompat } from "@eslint/eslintrc"
 import pluginJs from "@eslint/js"
-import tseslint from "typescript-eslint"
 import pluginReactConfig from "eslint-plugin-react/configs/recommended.js"
+import tseslint from "typescript-eslint"
+
+const flatCompat = new FlatCompat();
 
 export default [
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
-  pluginReactConfig,
-  {
-    extends: "next/core-web-vitals",
-  },
+  { plugins: pluginReactConfig },
+  ...fixupConfigRules(flatCompat.extends('next/core-web-vitals')),
   {
     rules: {
       "comma-dangle": [

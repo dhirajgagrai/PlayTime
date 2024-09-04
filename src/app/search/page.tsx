@@ -77,7 +77,7 @@ const Page = async ({ searchParams }: {
         <Search />
         <div className="my-8">
           {
-            Boolean(playlist) ?
+            playlist != null ?
               <Card className="p-1">
                 <CardHeader>
                   <CardTitle>Playlist Overview</CardTitle>

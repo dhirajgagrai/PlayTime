@@ -21,7 +21,8 @@ const getPlaylistDetails = async (id: string): Promise<PlaylistDetails | null> =
   }
 
   let pageToken = ""
-  while (true) {
+  let pageEnd = false
+  while (!pageEnd) {
     const resItems = await yt.playlistItems.list({
       playlistId: id,
       maxResults: 50,
@@ -44,7 +45,7 @@ const getPlaylistDetails = async (id: string): Promise<PlaylistDetails | null> =
     if (resItems.data.nextPageToken) {
       pageToken = resItems.data.nextPageToken
     } else {
-      break
+      pageEnd = true
     }
   }
   playlistDetails.videos = playlistDetails.videos.filter(video => video.status?.privacyStatus != "private")
