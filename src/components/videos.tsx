@@ -2,7 +2,7 @@
 
 import { CheckIcon, TrashIcon } from "lucide-react"
 import Link from "next/link"
-import { MouseEvent, ReactElement, useState } from "react"
+import { ReactElement, useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -11,8 +11,8 @@ import { Separator } from "@/components/ui/separator"
 import { PlaylistDetails } from "@/services/youtube"
 
 import { formatSecToDuration } from "@/lib/utils"
+import PlayTime from "./playtime"
 
-// TODO: Refactor for handling multiple states using videos state
 const Videos = (props: { pId: string, pd: PlaylistDetails, fd: number[] }): ReactElement => {
   const [videos, setVideos] = useState(props.pd.videos)
   const [totalDuration, setTotalDuration] = useState(props.fd.reduce((prev, curr) => prev + curr, 0))
@@ -92,6 +92,9 @@ const Videos = (props: { pId: string, pd: PlaylistDetails, fd: number[] }): Reac
 
   return (
     <div className="max-w-3xl mx-auto">
+      <div className="space-y-4 mb-4">
+        <PlayTime />
+      </div>
       <div className="flex justify-between mb-2">
         <div className="w-full">
           <Link href={`https://www.youtube.com/playlist?list=${props.pId}`} target="_blank" className="hover:underline">
