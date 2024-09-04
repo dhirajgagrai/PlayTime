@@ -91,7 +91,7 @@ const Page = async ({ searchParams }: {
   const hrFormattedDuration = videosDuration.map(vd => moment.duration(vd).asSeconds())
   return (
     <main className="flex flex-col">
-      <div className="min-h-screen bg-gray-100 p-8 overflow-y-auto">
+      <div className="min-h-screen bg-gray-100 my-10 px-8 overflow-y-auto">
         <Videos pId={searchParams.id as string} pd={pd as PlaylistDetails} fd={hrFormattedDuration} />
       </div>
     </main>

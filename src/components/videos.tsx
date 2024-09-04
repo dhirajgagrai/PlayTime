@@ -92,7 +92,7 @@ const Videos = (props: { pId: string, pd: PlaylistDetails, fd: number[] }): Reac
 
   return (
     <div className="max-w-3xl mx-auto">
-      <div className="space-y-4 mb-4">
+      <div className="space-y-4 mb-8">
         <PlayTime />
       </div>
       <div className="flex justify-between mb-2">
