@@ -48,9 +48,10 @@ const Videos = (props: { pId: string, pd: PlaylistDetails, fd: number[] }): Reac
     setWatchedDuration(watchedDuration - netWatchedDuration)
     setTotalDuration(totalDuration - netDeleteDuration)
     /**
-     * Filters videos that are in the indexes and returns rest of the videos.
+     * Filters out videos that are in the indexes and returns rest of the videos.
+     *
      * indexes.indexOf(i) returns -1 for all i that are not in indexes.
-     * However, if i is in indexes it gets filtered out as indexOf(i) returns non-negative value.
+     * However, if i is in indexes it gets filtered out as indexOf(i) will return non-negative value.
      *  */
     setVideos(videos.filter((_, i) => indexes.indexOf(i) === -1))
     setCheckedVideos([])
@@ -92,14 +93,14 @@ const Videos = (props: { pId: string, pd: PlaylistDetails, fd: number[] }): Reac
 
   return (
     <div className="max-w-3xl mx-auto">
-      <div className="space-y-4 mb-8">
+      <div className="mb-8">
         <PlayTime />
       </div>
-      <div className="flex justify-between mb-2">
+      <div className="flex flex-col justify-between mb-2">
+        <Link href={`https://www.youtube.com/playlist?list=${props.pId}`} target="_blank" className="self-start hover:underline text-2xl font-bold">
+          {props.pd?.title}
+        </Link>
         <div className="w-full">
-          <Link href={`https://www.youtube.com/playlist?list=${props.pId}`} target="_blank" className="hover:underline">
-            <div className="text-2xl font-bold">{props.pd?.title}</div>
-          </Link>
           <div className="text-gray-500 mb-2">
             Total videos: {videos.length} {Boolean(unavailableVideoCount) && `(${unavailableVideoCount} unavailable)`}
           </div>
@@ -147,8 +148,8 @@ const Videos = (props: { pId: string, pd: PlaylistDetails, fd: number[] }): Reac
                   checked={checked[i]}
                   onClick={() => handleCheck(props.fd[i], video.id as string, i)}
                 />
-                <Link href={`https://www.youtube.com/watch?v=${video.snippet?.resourceId?.videoId}`} target="_blank" className="hover:underline">
-                  <div className="font-medium">{video.snippet?.title}</div>
+                <Link href={`https://www.youtube.com/watch?v=${video.snippet?.resourceId?.videoId}`} target="_blank" className="hover:underline font-medium">
+                  {video.snippet?.title}
                 </Link>
               </div>
               <div className="flex basis-5 md:basis-48 items-center gap-2">
