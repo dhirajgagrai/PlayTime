@@ -1,6 +1,5 @@
 {
-  "name": "playtime",
-  "version": "0.1.0",
+  "name": "tubetime",
   "private": true,
   "scripts": {
     "dev": "next dev",

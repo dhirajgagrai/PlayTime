@@ -9,7 +9,7 @@ const libre = Libre_Franklin({
 })
 
 export const metadata: Metadata = {
-  title: "PlayTime | YouTube Playlist Watch Time",
+  title: "TubeTime | YouTube Playlist Watch Time",
   description: "Know watch time of YouTube playlists",
 }
 

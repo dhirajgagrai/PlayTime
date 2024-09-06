@@ -1,4 +1,4 @@
-# PlayTime
+# TubeTime
 
 This app calculates the total watch time of YouTube playlists, with additional features to remove videos and check the duration of the watched videos.
 

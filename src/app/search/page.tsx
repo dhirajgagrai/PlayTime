@@ -4,7 +4,7 @@ import { ReactElement } from "react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { CardTitle, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card"
-import PlayTime from "@/components/playtime"
+import Logo from "@/components/logo"
 import Search from "@/components/search"
 import Social from "@/components/social"
 
@@ -72,7 +72,7 @@ const Page = async ({ searchParams }: {
     <main className="flex flex-col items-center justify-between h-dvh">
       <div className="mt-10 md:mt-40 max-w-2xl w-full px-4 md:px-6">
         <div className="mb-4 text-center">
-          <PlayTime />
+          <Logo />
         </div>
         <Search />
         <div className="my-8">

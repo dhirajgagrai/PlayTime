@@ -4,6 +4,7 @@ import { CheckIcon, TrashIcon } from "lucide-react"
 import Link from "next/link"
 import { ReactElement, useState } from "react"
 
+import Logo from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Progress } from "@/components/ui/progress"
@@ -11,7 +12,6 @@ import { Separator } from "@/components/ui/separator"
 import { PlaylistDetails } from "@/services/youtube"
 
 import { formatSecToDuration } from "@/lib/utils"
-import PlayTime from "./playtime"
 
 const Videos = (props: { pId: string, pd: PlaylistDetails, fd: number[] }): ReactElement => {
   const [videos, setVideos] = useState(props.pd.videos)
@@ -94,7 +94,7 @@ const Videos = (props: { pId: string, pd: PlaylistDetails, fd: number[] }): Reac
   return (
     <div className="max-w-3xl mx-auto">
       <div className="mb-8">
-        <PlayTime />
+        <Logo />
       </div>
       <div className="flex flex-col justify-between mb-2">
         <Link href={`https://www.youtube.com/playlist?list=${props.pId}`} target="_blank" className="self-start hover:underline text-2xl font-bold">
