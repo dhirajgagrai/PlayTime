@@ -1,5 +1,8 @@
 import moment from "moment"
+
+import { ArrowLeft } from "lucide-react"
 import { Metadata } from "next"
+import Link from "next/link"
 import { ReactElement } from "react"
 
 import yt, { PlaylistDetails } from "@/services/youtube"
@@ -92,7 +95,12 @@ const Page = async ({ searchParams }: {
   return (
     <main className="flex flex-col">
       <div className="min-h-screen bg-gray-100 my-10 px-8 overflow-y-auto">
-        <Videos pId={searchParams.id as string} pd={pd as PlaylistDetails} fd={hrFormattedDuration} />
+        <div className="flex flex-col max-w-3xl mx-auto">
+          <Link href="/" className="flex items-center self-start mb-4 hover:underline">
+            <ArrowLeft className="h-4 w-4 mr-2" />Go back to search
+          </Link>
+          <Videos pId={searchParams.id as string} pd={pd as PlaylistDetails} fd={hrFormattedDuration} />
+        </div>
       </div>
     </main>
   )

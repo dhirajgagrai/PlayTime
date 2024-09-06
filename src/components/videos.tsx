@@ -2,9 +2,8 @@
 
 import { CheckIcon, TrashIcon } from "lucide-react"
 import Link from "next/link"
-import { ReactElement, useState } from "react"
+import { Fragment, ReactElement, useState } from "react"
 
-import Logo from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Progress } from "@/components/ui/progress"
@@ -92,10 +91,7 @@ const Videos = (props: { pId: string, pd: PlaylistDetails, fd: number[] }): Reac
   }
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <div className="mb-8">
-        <Logo />
-      </div>
+    <Fragment>
       <div className="flex flex-col justify-between mb-2">
         <Link href={`https://www.youtube.com/playlist?list=${props.pId}`} target="_blank" className="self-start hover:underline text-2xl font-bold">
           {props.pd?.title}
@@ -176,7 +172,7 @@ const Videos = (props: { pId: string, pd: PlaylistDetails, fd: number[] }): Reac
           ))
         }
       </div>
-    </div>
+    </Fragment>
   )
 }
 
